@@ -18,6 +18,7 @@ function start() {
   startTime = Date.now();
   cancelId = requestAnimationFrame(updateTimer);
   // OR: cancelId = setInterval(updateTimer, 1000 / 60)
+  // browsers run at 60 frames per second
 }
 
 function stop() {
@@ -61,6 +62,7 @@ function updateTimer() {
   timerSeconds.innerHTML = zeroPad(Math.floor(secondsLeft % 60), 2);
   timerMinutes.innerHTML = zeroPad(Math.floor(minutesLeft), 2);
 
+  // Don't need this if statement if using setInterval solution
   if (cancelId) {
     cancelId = requestAnimationFrame(updateTimer);
   }
