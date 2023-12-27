@@ -5,19 +5,20 @@ const timerMilliseconds = document.querySelector(".timer__milliseconds");
 let startTime;
 let cancelId;
 let savedTime = 0;
+const countdown = 25 * 60 * 1000;
 
 function start() {
-  startTime = 25 * 60 * 1000 + Date.now();
+  startTime = Date.now();
   cancelId = requestAnimationFrame(updateTimer);
 }
 
 function stop() {
-  savedTime = startTime - savedTime - Date.now() - 25 * 60 * 1000;
+  savedTime += Date.now() - startTime;
   cancelAnimationFrame(cancelId);
 }
 
 function reset() {
-  startTime = 25 * 60 * 1000 + Date.now();
+  startTime = Date.now();
   savedTime = 0;
 
   timerMinutes.innerHTML = "25";
@@ -30,13 +31,15 @@ const zeroPad = (num, places) => {
 };
 
 function updateTimer() {
-  let millisElapsed = savedTime + startTime - Date.now();
-  let secondsElapsed = millisElapsed / 1000;
-  let minutesElapsed = secondsElapsed / 60;
+  let millisElapsed = Date.now() - startTime + savedTime;
 
-  timerMilliseconds.innerHTML = zeroPad(Math.floor(millisElapsed % 1000), 3);
-  timerSeconds.innerHTML = zeroPad(Math.floor(secondsElapsed % 60), 2);
-  timerMinutes.innerHTML = zeroPad(Math.floor(minutesElapsed), 2);
+  let millisLeft = countdown - millisElapsed;
+  let secondsLeft = millisLeft / 1000;
+  let minutesLeft = secondsLeft / 60;
+
+  timerMilliseconds.innerHTML = zeroPad((millisLeft % 1000), 3);
+  timerSeconds.innerHTML = zeroPad(Math.floor(secondsLeft % 60), 2);
+  timerMinutes.innerHTML = zeroPad(Math.floor(minutesLeft), 2);
 
   cancelId = requestAnimationFrame(updateTimer);
 }
