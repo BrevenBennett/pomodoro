@@ -17,6 +17,7 @@ function start() {
 
   startTime = Date.now();
   cancelId = requestAnimationFrame(updateTimer);
+  // OR: cancelId = setInterval(updateTimer, 1000 / 60)
 }
 
 function stop() {
@@ -26,6 +27,7 @@ function stop() {
 
   savedTime += Date.now() - startTime;
   cancelAnimationFrame(cancelId);
+  // OR: clearInterval(cancelId)
 }
 
 function reset() {
@@ -43,12 +45,15 @@ const zeroPad = (num, places) => {
 
 function updateTimer() {
   let millisElapsed = Date.now() - startTime + savedTime;
+
   let millisLeft = countdown - millisElapsed;
   if (millisLeft < 0) {
     millisLeft = 0;
     cancelAnimationFrame(cancelId);
+    // OR: clearInterval(cancelId)
     cancelId = null;
   }
+
   let secondsLeft = millisLeft / 1000;
   let minutesLeft = secondsLeft / 60;
 
