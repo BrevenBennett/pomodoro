@@ -61,5 +61,7 @@ function updateTimer() {
   timerSeconds.innerHTML = zeroPad(Math.floor(secondsLeft % 60), 2);
   timerMinutes.innerHTML = zeroPad(Math.floor(minutesLeft), 2);
 
-  cancelId = requestAnimationFrame(updateTimer);
+  if (cancelId) {
+    cancelId = requestAnimationFrame(updateTimer);
+  }
 }
